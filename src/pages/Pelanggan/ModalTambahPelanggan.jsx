@@ -1,6 +1,6 @@
 import { color } from "../../utils/dataColorLight";
 import { X } from "lucide-react";
-import FormPelanggan from "./FormPelanggan";
+import FormCustomer from "./FormCustomer";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "../../services/useLocalStorage";
 
@@ -103,7 +103,7 @@ function ModalTambahPelanggan({ modalClose, isOpen, onSimpan }) {
             <X />
           </button>
         </div>
-        <FormPelanggan
+        <FormCustomer
           pelangganData={pelangganData}
           handleChange={handlePelangganChange}
         />
