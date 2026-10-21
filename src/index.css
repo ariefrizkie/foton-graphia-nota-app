@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Manrope:wght@200..800&display=swap");
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  /* Light Mode Color */
+  --color-light-bg: #f5f6f9;
+  --color-light-surface: #ffffff;
+  --color-light-surface-alt: #edeff5;
+  --color-light-border: #e1e4eb;
+  --color-light-text: #14171f;
+  --color-light-muted: #767c89;
+  --color-light-accent-1: #14b8a6;
+  --color-light-accent-2: #6d4df2;
+  --color-light-accent-3: #e8a33d;
+  --color-light-accent-4: #f0645e;
+  --color-light-accent-primary: #6d4df2;
+  --color-light-accent-on-primary: #ffffff;
+  --color-light-sidebar-bg: #ffffff;
+  --color-light-nav-active-bg: #f1edfe;
+  --color-light-nav-active-text: #6d4df2;
+  --color-light-pos: #17a673;
+  --color-light-neg: #f0645e;
+  --color-light-overlay: rgba(20, 23, 31, 0.45);
+  --color-light-pos-bg: rgba(23, 166, 115, 0.12);
+  --color-light-neg-bg: rgba(240, 100, 94, 0.12);
+
+  /* Dark Mode Color */
+  --color-dark-bg: #14161b;
+  --color-dark-surface: #1b1e25;
+  --color-dark-surface-alt: #232732;
+  --color-dark-border: #2b303b;
+  --color-dark-text: #edeef2;
+  --color-dark-muted: #8b93a3;
+  --color-dark-accent-1: #2dd4c4;
+  --color-dark-accent-2: #8b7cff;
+  --color-dark-accent-3: #f2b84c;
+  --color-dark-accent-4: #ff7a76;
+  --color-dark-accent-primary: #8b7cff;
+  --color-dark-accent-on-primary: #14161b;
+  --color-dark-sidebar-bg: #1b1e25;
+  --color-dark-nav-active-bg: #262038;
+  --color-dark-nav-active-text: #b3a6ff;
+  --color-dark-pos: #34d399;
+  --color-dark-neg: #ff7a76;
+  --color-dark-overlay: rgba(0, 0, 0, 0.6);
+  --color-dark-pos-bg: rgba(52, 211, 153, 0.14);
+  --color-dark-neg-bg: rgba(255, 122, 118, 0.14);
+
+  /* font */
+  --font-ibm-plex-mono: "IBM Plex Mono", monospace;
+  --font-manrope: "Manrope", sans-serif;
+}
