@@ -1,6 +1,6 @@
 import { color } from "../../utils/dataColorLight";
 import { X } from "lucide-react";
-import FormPelanggan from "./formPelanggan";
+import FormPelanggan from "./FormPelanggan";
 import { useEffect, useState } from "react";
 
 function ModalEditPelanggan({ modalClose, isOpen, onEdit, dataPelanggan }) {

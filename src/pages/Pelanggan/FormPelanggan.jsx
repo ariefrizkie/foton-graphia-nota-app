@@ -1,6 +1,6 @@
 import { color } from "../../utils/dataColorLight";
 
-function FormCustomer({ pelangganData, handleChange }) {
+function FormPelanggan({ pelangganData, handleChange }) {
   return (
     <div className="flex flex-col gap-3.5">
       <div className={`flex flex-col gap-1.5`}>
@@ -75,4 +75,4 @@ function FormCustomer({ pelangganData, handleChange }) {
   );
 }
 
-export default FormCustomer;
+export default FormPelanggan;
