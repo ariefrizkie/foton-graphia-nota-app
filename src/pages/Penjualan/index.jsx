@@ -23,6 +23,8 @@ function Penjualan() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const [itembaru, setItemBaru] = useState({});
+
   const filteredNota = dbNota.filter((nota) => {
     const keywordLower = keyword.toLowerCase();
     const kodeNota = nota.kode_nota ? nota.kode_nota.toLowerCase() : "";
@@ -75,7 +77,7 @@ function Penjualan() {
         });
 
         const listPelanggan = dbPelanggan.find((pelanggan) => {
-          return pelanggan.kode_customer == nota.id_customer;
+          return pelanggan.kode_customer == nota.kode_customer;
         });
 
         return {
@@ -117,6 +119,52 @@ function Penjualan() {
       notaBelumLunas,
       totalPenjualan,
     };
+  };
+
+  const handleStatusItem = (idItem) => {
+    try {
+      const listItemBaru = dbItemsNota.map((item) => {
+        if (item.id_item === idItem) {
+          return {
+            ...item,
+            status_item: "Selesai",
+          };
+        }
+        return item;
+      });
+
+      setDbItemsNota(listItemBaru);
+    } catch (error) {
+      console.error("Gagal memeperbarui status item: ", error);
+    }
+  };
+
+  const handleStatusNota = (idNota) => {
+    try {
+      const listNotaBaru = dbNota.map((nota) => {
+        if (idNota === nota.id_nota) {
+          const listItem = dbItemsNota.map((item) => {
+            if (idNota === item.id_nota) {
+              return item.status_item;
+            }
+          });
+
+          const semuaItemSelesai = listItem.every((item) => item === "Selesai");
+
+          const statusNotaBaru = semuaItemSelesai ? "Selesai" : "Dalam Proses";
+
+          return {
+            ...nota,
+            status_pesanan: statusNotaBaru,
+          };
+        }
+        return nota;
+      });
+
+      setDbNota(listNotaBaru);
+    } catch (error) {
+      console.error("Gagal memperbarui status pengerjaan nota: ", error);
+    }
   };
 
   return (
@@ -243,6 +291,8 @@ function Penjualan() {
               modalClose={setIsModalOpen}
               isOpen={isModalOpen}
               nota={dataDetail}
+              handleStatusItem={handleStatusItem}
+              handleStatusNota={handleStatusNota}
             />
           )}
         </div>

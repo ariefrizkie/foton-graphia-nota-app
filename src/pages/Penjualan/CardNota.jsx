@@ -1,7 +1,7 @@
 import { Eye, Printer } from "lucide-react";
 import { color } from "../../utils/dataColorLight";
 
-function CardNota({ nota, modalOpen, printOpen, detail }) {
+function CardNota({ nota, modalOpen, detail }) {
   const handlePrint = () => {
     sessionStorage.setItem("print_data", JSON.stringify(nota));
 

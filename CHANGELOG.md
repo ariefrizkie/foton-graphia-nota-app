@@ -12,3 +12,14 @@
 
 - Perbaikan alur data
 - Perbaikan typo penulisan
+
+## [1.4.2] -2026-10-23
+
+### Added
+
+- Penambahan fitur update status item atau pengerjaan per item
+- Perbaikan filter pada halaman pelanggan
+
+### Fixed
+
+- Perbaikan beberapa bug pada halaman penjualan atau list nota

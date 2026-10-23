@@ -3,7 +3,13 @@ import Pelunasan from "./Pelunasan";
 import { color } from "../../utils/dataColorLight";
 import { useEffect, useState } from "react";
 
-function ModalDetail({ modalClose, isOpen, nota }) {
+function ModalDetail({
+  modalClose,
+  isOpen,
+  nota,
+  handleStatusItem,
+  handleStatusNota,
+}) {
   const [isLunas, setIsLunas] = useState(true);
   const [isPelunasanOpen, setIsPelunasanOpen] = useState(false);
 
@@ -115,7 +121,15 @@ function ModalDetail({ modalClose, isOpen, nota }) {
               <div className="min-w-0 flex items-center">
                 {item.status_item === "Dalam Proses" && (
                   <div className="mr-3">
-                    <input type="checkbox" name="statusItem" id="statusItem" />
+                    <button
+                      className={`py-1 px-1.5 rounded-md text-xs font-semibold ${color.accentPrimary} cursor-pointer `}
+                      onClick={() => {
+                        handleStatusItem(item.id_item);
+                        handleStatusNota(item.id_nota);
+                      }}
+                    >
+                      Selesai
+                    </button>
                   </div>
                 )}
                 <div>

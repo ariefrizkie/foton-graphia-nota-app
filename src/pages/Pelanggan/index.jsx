@@ -72,15 +72,15 @@ function Pelanggan() {
   });
 
   const sortedPelanggan = filterPelanggan.slice().sort((a, b) => {
-    const filterUrutanLower = filterUrutan.toLocaleLowerCase();
+    const filterUrutanLower = filterUrutan.toLowerCase();
     const namaA = a.nama_customer ? a.nama_customer.toLowerCase() : "";
     const namaB = b.nama_customer ? b.nama_customer.toLowerCase() : "";
     const kodeA = a.kode_customer ? a.kode_customer.toLowerCase() : "";
     const kodeB = b.kode_customer ? b.kode_customer.toLowerCase() : "";
-    const totalA = a.total_transaksi ? a.total_transaksi.toLowerCase() : "";
-    const totalB = b.total_transaksi ? b.total_transaksi.toLowerCase() : "";
-    const itemA = a.total_belanja ? a.total_belanja.toLowerCase() : "";
-    const itemB = b.total_belanja ? b.total_belanja.toLowerCase() : "";
+    const totalA = a.total_transaksi ? a.total_transaksi : 0;
+    const totalB = b.total_transaksi ? b.total_transaksi : 0;
+    const itemA = a.total_belanja ? a.total_belanja : 0;
+    const itemB = b.total_belanja ? b.total_belanja : 0;
     if (filterUrutanLower === "nama-asc") {
       return namaA.localeCompare(namaB);
     } else if (filterUrutanLower === "nama-desc") {
@@ -89,15 +89,17 @@ function Pelanggan() {
       return kodeA.localeCompare(kodeB);
     } else if (filterUrutanLower === "kode-desc") {
       return kodeB.localeCompare(kodeA);
-    } else if (filterUrutanLower === "total-trans-asc") {
-      return totalA.localeCompare(totalB);
-    } else if (filterUrutanLower === "total-trans-desc") {
-      return totalB.localeCompare(totalA);
-    } else if (filterUrutanLower === "item-asc") {
-      return itemA.localeCompare(itemB);
-    } else if (filterUrutanLower === "item-desc") {
-      return itemB.localeCompare(itemA);
     }
+
+    // else if (filterUrutanLower === "total-trans-asc") {
+    //   return totalA < totalB;
+    // } else if (filterUrutanLower === "total-trans-desc") {
+    //   return totalB > totalA;
+    // } else if (filterUrutanLower === "item-asc") {
+    //   return itemA.localeCompare(itemB);
+    // } else if (filterUrutanLower === "item-desc") {
+    //   return itemB.localeCompare(itemA);
+    // }
 
     return 0;
   });
@@ -179,10 +181,10 @@ function Pelanggan() {
                 <option value="nama-desc">Nama Z-A</option>
                 <option value="kode-asc">Kode (Naik)</option>
                 <option value="kode-desc">Kode (Turun)</option>
-                <option value="total-trans-asc">Transaksi Terbanyak</option>
+                {/* <option value="total-trans-asc">Transaksi Terbanyak</option>
                 <option value="total-trans-desc">Transaksi Sedikit</option>
                 <option value="item-asc">Item Terbanyak</option>
-                <option value="item-desc">Item Sedikit</option>
+                <option value="item-desc">Item Sedikit</option> */}
               </select>
               <button
                 className={`text-sm px-3 py-2 focus:outline-2 focus:outline-offset-1 ${color.focus} border ${color.border} ${color.bgSurfaceAlt} rounded-lg ${color.text} ${color.hoverFilter} `}

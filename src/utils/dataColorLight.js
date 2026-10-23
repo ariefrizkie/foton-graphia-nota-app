@@ -7,7 +7,7 @@ const color = {
   pos: "bg-light-pos-bg text-light-pos dark:bg-dark-pos-bg dark:text-dark-pos",
   neg: "bg-light-neg-bg text-light-neg  dark:bg-dark-neg-bg dark:text-dark-neg",
   accentPrimary:
-    "bg-light-accent-primary text-light-accent-on-primary dark:bg-dark-accent-primary dark:text-dark-accent-on-primary",
+    "bg-light-accent-primary text-light-accent-on-primary dark:bg-dark-accent-primary dark:text-dark-accent-on-primary active:bg-light-accent-primary/70 dark:active:bg-dark-accent-primary/60",
   bgSidebar: "bg-light-sidebar-bg dark:bg-dark-sidebar-bg",
   border: "border-light-border dark:border-dark-border",
   bgSurface: "bg-light-surface dark:bg-dark-surface",

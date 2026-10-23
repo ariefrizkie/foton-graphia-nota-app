@@ -98,7 +98,7 @@ function Sidebar() {
           className={`font-semibold hover:text-light-nav-active-text hover:dark:text-dark-nav-active-text  text-sm ${color.textMuted} opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap`}
         >
           Foton Graphia
-          <br />V 1.3.4
+          <br />V 1.4.2
         </div>
       </div>
     </aside>
