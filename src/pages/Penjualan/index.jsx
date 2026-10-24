@@ -121,47 +121,34 @@ function Penjualan() {
     };
   };
 
-  const handleStatusItem = (idItem) => {
+  const handleStatusItems = (dataItem) => {
+    console.log(dataItem);
+  };
+  const handleStatusPengerjaan = (dataNota) => {
     try {
-      const listItemBaru = dbItemsNota.map((item) => {
-        if (item.id_item === idItem) {
-          return {
-            ...item,
-            status_item: "Selesai",
-          };
+      const itemSelain = dbItemsNota.map((item) => {
+        const itemBaru = dataNota.items.find(
+          (baru) => baru.id_item === item.id_item,
+        );
+        if (itemBaru) {
+          return itemBaru;
         }
         return item;
       });
 
-      setDbItemsNota(listItemBaru);
-    } catch (error) {
-      console.error("Gagal memeperbarui status item: ", error);
-    }
-  };
+      setDbItemsNota(itemSelain);
 
-  const handleStatusNota = (idNota) => {
-    try {
-      const listNotaBaru = dbNota.map((nota) => {
-        if (idNota === nota.id_nota) {
-          const listItem = dbItemsNota.map((item) => {
-            if (idNota === item.id_nota) {
-              return item.status_item;
-            }
-          });
-
-          const semuaItemSelesai = listItem.every((item) => item === "Selesai");
-
-          const statusNotaBaru = semuaItemSelesai ? "Selesai" : "Dalam Proses";
-
+      const dataNotaBaru = dbNota.map((nota) => {
+        if (nota.id_nota === dataNota.idNota) {
           return {
             ...nota,
-            status_pesanan: statusNotaBaru,
+            status_pesanan: dataNota.pengerjaan,
           };
         }
         return nota;
       });
 
-      setDbNota(listNotaBaru);
+      setDbNota(dataNotaBaru);
     } catch (error) {
       console.error("Gagal memperbarui status pengerjaan nota: ", error);
     }
@@ -290,9 +277,10 @@ function Penjualan() {
             <ModalDetail
               modalClose={setIsModalOpen}
               isOpen={isModalOpen}
-              nota={dataDetail}
-              handleStatusItem={handleStatusItem}
-              handleStatusNota={handleStatusNota}
+              dataNota={dataDetail}
+              setData={setDataDetail}
+              handleStatusItems={handleStatusItems}
+              handleStatusPengerjaan={handleStatusPengerjaan}
             />
           )}
         </div>

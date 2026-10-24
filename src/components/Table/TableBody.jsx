@@ -1,5 +1,4 @@
 import { color } from "../../utils/dataColorLight";
-import Td from "./Td";
 
 function TableBody({ datas, titles, emptyMessage = "Tidak ada data" }) {
   return (
@@ -16,7 +15,7 @@ function TableBody({ datas, titles, emptyMessage = "Tidak ada data" }) {
       ) : (
         datas.map((data, dataIndex) => (
           <tr
-            key={data.kodeNota || dataIndex}
+            key={data.idItem || dataIndex}
             className={`border-b ${color.border} ${color.text} text-sm text-left hover:bg-light-surface-alt/40 dark:hover:bg-dark-surface-alt/50`}
           >
             {titles.map((column, colIndex) => (

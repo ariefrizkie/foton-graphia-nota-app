@@ -2,19 +2,29 @@ import { PlusIcon, PrinterIcon, X } from "lucide-react";
 import Pelunasan from "./Pelunasan";
 import { color } from "../../utils/dataColorLight";
 import { useEffect, useState } from "react";
+import { useLocalStorage } from "../../services/useLocalStorage";
 
 function ModalDetail({
   modalClose,
   isOpen,
-  nota,
-  handleStatusItem,
-  handleStatusNota,
+  dataNota,
+  setData,
+  handleStatusItems,
+  handleStatusPengerjaan,
 }) {
+  const [dbItemsNota, setDbItemsNota] = useLocalStorage("db_items_nota", []);
   const [isLunas, setIsLunas] = useState(true);
   const [isPelunasanOpen, setIsPelunasanOpen] = useState(false);
+  const [dataItem, setDataItem] = useState([]);
 
   useEffect(() => {
     if (!isOpen) return;
+
+    const handleDataItem = dbItemsNota.filter(
+      (item) => item.id_nota === dataNota.idNota,
+    );
+
+    setDataItem(handleDataItem);
 
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
@@ -36,10 +46,40 @@ function ModalDetail({
   };
 
   const handlePrint = () => {
-    sessionStorage.setItem("print_data", JSON.stringify(nota));
+    sessionStorage.setItem("print_data", JSON.stringify(dataNota));
 
     window.open("/print", "_blank");
   };
+
+  const handleItemSelesai = (idItem) => {
+    const listItemBaru = dataItem.map((item) => {
+      if (item.id_item === idItem) {
+        return {
+          ...item,
+          status_item: "Selesai",
+        };
+      }
+      return item;
+    });
+
+    setDataItem(listItemBaru);
+
+    const semuaItemSelesai = listItemBaru
+      .map((item) => item.status_item)
+      .every((item) => item === "Selesai");
+
+    const statusNotaBaru = semuaItemSelesai ? "Selesai" : "Dalam Proses";
+
+    const dataBaru = {
+      ...dataNota,
+      pengerjaan: statusNotaBaru,
+      items: listItemBaru,
+    };
+    handleStatusPengerjaan(dataBaru);
+    setData(dataBaru);
+  };
+
+  // console.log(dataNota);
   return (
     <div
       id="modal-detail"
@@ -53,21 +93,21 @@ function ModalDetail({
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className={`font-bold font-mono ${color.text}`}>
-                {nota.kodeNota}
+                {dataNota.kodeNota}
               </span>
               <span
-                className={`text-xs text-center font-medium px-2.5 py-0.5 rounded-full shrink-0 ${nota.statusPembayaran == "Lunas" ? `${color.pos}` : `${color.neg}`}`}
+                className={`text-xs text-center font-medium px-2.5 py-0.5 rounded-full shrink-0 ${dataNota.statusPembayaran == "Lunas" ? `${color.pos}` : `${color.neg}`}`}
               >
-                {nota.statusPembayaran}
+                {dataNota.statusPembayaran}
               </span>
               <span
-                className={`text-xs text-center font-medium px-2.5 py-0.5 rounded-full shrink-0 ${nota.pengerjaan === "Selesai" ? `${color.pos}` : `${color.neg}`}`}
+                className={`text-xs text-center font-medium px-2.5 py-0.5 rounded-full shrink-0 ${dataNota.pengerjaan === "Selesai" ? `${color.pos}` : `${color.neg}`}`}
               >
-                {nota.pengerjaan}
+                {dataNota.pengerjaan}
               </span>
             </div>
             <div className={`text-xs ${color.textMuted}`}>
-              {nota.tanggalTransaksi}
+              {dataNota.tanggalTransaksi}
             </div>
           </div>
           <button
@@ -83,7 +123,7 @@ function ModalDetail({
           <div>
             <div className={`text-xs ${color.textMuted}`}>Pelanggan</div>
             <div className={`text-sm ${color.text} font-medium`}>
-              {nota.namaPelanggan}
+              {dataNota.namaPelanggan}
             </div>
           </div>
           <div>
@@ -91,7 +131,7 @@ function ModalDetail({
             <div
               className={`text-sm ${color.text} font-medium font-ibm-plex-mono`}
             >
-              {nota.nomorTelepon}
+              {dataNota.nomorTelepon}
             </div>
           </div>
           <div>
@@ -99,13 +139,13 @@ function ModalDetail({
               Tanggal Transaksi
             </div>
             <div className={`text-sm ${color.text} font-medium`}>
-              {nota.tanggalTransaksi}
+              {dataNota.tanggalTransaksi}
             </div>
           </div>
           <div>
             <div className={`text-xs ${color.textMuted}`}>Tanggal Selesai</div>
             <div className={`text-sm ${color.text} font-medium`}>
-              {nota.tanggalSelesai}
+              {dataNota.tanggalSelesai}
             </div>
           </div>
         </div>
@@ -113,7 +153,7 @@ function ModalDetail({
           ITEM PESANAN
         </h4>
         <div className={`mb-4 border-t ${color.border}`}>
-          {nota.items.map((item) => (
+          {dataItem.map((item) => (
             <div
               key={item.id_item}
               className={`flex justify-between items-start gap-2 py-2.5 border-b ${color.border}`}
@@ -124,8 +164,7 @@ function ModalDetail({
                     <button
                       className={`py-1 px-1.5 rounded-md text-xs font-semibold ${color.accentPrimary} cursor-pointer `}
                       onClick={() => {
-                        handleStatusItem(item.id_item);
-                        handleStatusNota(item.id_nota);
+                        handleItemSelesai(item.id_item);
                       }}
                     >
                       Selesai
@@ -160,7 +199,7 @@ function ModalDetail({
             Total Pembayaran
           </span>
           <span className={`font-semibold text-lg ${color.text}`}>
-            {`Rp. ${nota.total.toLocaleString("id-ID")}`}
+            {`Rp. ${dataNota.total.toLocaleString("id-ID")}`}
           </span>
         </div>
         <h4 className={`text-xs font-semibold mb-2 ${color.textMuted}`}>
@@ -171,19 +210,19 @@ function ModalDetail({
             <span className={color.textMuted}>Cash</span>
             <span
               className={`font-ibm-plex-mono ${color.text}`}
-            >{`Rp. ${nota.rincianPembayaran.cash.toLocaleString("id-ID")}`}</span>
+            >{`Rp. ${dataNota.rincianPembayaran.cash.toLocaleString("id-ID")}`}</span>
           </div>
           <div className="flex justify-between">
             <span className={color.textMuted}>Transfer</span>
             <span
               className={`font-ibm-plex-mono ${color.text}`}
-            >{`Rp. ${nota.rincianPembayaran.transfer.toLocaleString("id-ID")}`}</span>
+            >{`Rp. ${dataNota.rincianPembayaran.transfer.toLocaleString("id-ID")}`}</span>
           </div>
           <div className="flex justify-between">
             <span className={color.textMuted}>E-Wallet</span>
             <span
               className={`font-ibm-plex-mono ${color.text}`}
-            >{`Rp. ${nota.rincianPembayaran.eWallet.toLocaleString("id-ID")}`}</span>
+            >{`Rp. ${dataNota.rincianPembayaran.eWallet.toLocaleString("id-ID")}`}</span>
           </div>
           <div
             className={`flex justify-between pt-1.5 mt-1 border-t ${color.border}`}
@@ -191,17 +230,17 @@ function ModalDetail({
             <span className={`font-medium ${color.text}`}>Total Dibayar</span>
             <span
               className={`font-ibm-plex-mono ${color.text}`}
-            >{`Rp. ${nota.dibayar.toLocaleString("id-ID")}`}</span>
+            >{`Rp. ${dataNota.dibayar.toLocaleString("id-ID")}`}</span>
           </div>
           <div className="flex justify-between">
             <span className={color.textMuted}>Sisa Tagihan</span>
             <span
-              className={`font-ibm-plex-mono ${nota.sisaTagihan == 0 ? "text-light-pos dark:text-dark-pos" : "text-light-neg dark:text-dark-neg"}`}
-            >{`Rp. ${nota.sisaTagihan.toLocaleString("id-ID")}`}</span>
+              className={`font-ibm-plex-mono ${dataNota.sisaTagihan == 0 ? "text-light-pos dark:text-dark-pos" : "text-light-neg dark:text-dark-neg"}`}
+            >{`Rp. ${dataNota.sisaTagihan.toLocaleString("id-ID")}`}</span>
           </div>
         </div>
 
-        {nota.statusPembayaran === "Belum Lunas" && (
+        {dataNota.statusPembayaran === "Belum Lunas" && (
           <button
             className={`flex items-center justify-center gap-1 w-full mb-4 py-2.5 rounded-xl text-sm font-semibold ${color.neg} border cursor-pointer`}
             onClick={() => setIsPelunasanOpen(!isPelunasanOpen)}

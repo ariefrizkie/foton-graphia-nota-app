@@ -28,6 +28,7 @@ function Dashboard() {
         });
 
         return {
+          idItem: item.id_item,
           kodeNota: listNota.kode_nota,
           namaPelanggan: listNota.nama_customer,
           namaBarang: item.nama_barang,
@@ -97,7 +98,7 @@ function Dashboard() {
                 accent="border-l-light-accent-1 dark:border-l-dark-accent-1"
                 title="Penjualan Bulan Ini"
                 content={`Rp. ${totalPerbulan}`}
-                detail="Naik 10% dari bulan kemarin"
+                detail="Hasil Penjualan Selama Satu Bulan"
                 accentDetail="text-light-pos dark:text-dark-pos"
               />
               <Card
@@ -110,7 +111,7 @@ function Dashboard() {
                 }
                 detail={
                   notaBelumLunas().belumLunas > 0
-                    ? `Rp. ${notaBelumLunas().sisaTagihan}`
+                    ? `Rp. ${notaBelumLunas().sisaTagihan.toLocaleString("id-ID")}`
                     : "Tidak Ada Tunggakan"
                 }
                 accentDetail="text-light-neg dark:text-dark-neg"

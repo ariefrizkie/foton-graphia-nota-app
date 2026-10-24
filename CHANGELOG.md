@@ -23,3 +23,10 @@
 ### Fixed
 
 - Perbaikan beberapa bug pada halaman penjualan atau list nota
+
+## [1.4.3] -2026-10-24
+
+### Fixed
+
+- Perbaikan beberapa bug pada beberapa halaman
+- Perbaikan pada alur perubahan status item dan status pengerjaan
